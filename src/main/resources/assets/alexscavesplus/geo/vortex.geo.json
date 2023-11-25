@@ -1,0 +1,99 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.vortex",
+				"texture_width": 64,
+				"texture_height": 64,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 4.5,
+				"visible_bounds_offset": [0, 1.75, 0]
+			},
+			"bones": [
+				{
+					"name": "head",
+					"pivot": [0, 27, 0],
+					"cubes": [
+						{"origin": [-4, 23, -4], "size": [8, 8, 8], "uv": [0, 0]},
+						{"origin": [-4, 23, -4], "size": [8, 8, 8], "uv": [0, 16]}
+					]
+				},
+				{
+					"name": "ring_big",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "rod1",
+					"parent": "ring_big",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-13, 20, -1], "size": [2, 16, 2], "pivot": [-13, 20, 0], "rotation": [0, 0, 5], "uv": [32, 0]},
+						{"origin": [-9, 5, -1], "size": [2, 16, 2], "pivot": [-8, 5, 0], "rotation": [0, 0, -15], "uv": [40, 0]},
+						{"origin": [-9, 5, -1], "size": [2, 16, 2], "pivot": [-8, 5, 0], "rotation": [0, 0, -20], "uv": [40, 0]}
+					]
+				},
+				{
+					"name": "rod2",
+					"parent": "ring_big",
+					"pivot": [0, 0, 0],
+					"rotation": [0, -90, 0],
+					"cubes": [
+						{"origin": [-13, 20, -1], "size": [2, 16, 2], "pivot": [-13, 20, 0], "rotation": [0, 0, 5], "uv": [32, 0]},
+						{"origin": [-9, 5, -1], "size": [2, 16, 2], "pivot": [-8, 5, 0], "rotation": [0, 0, -15], "uv": [40, 0]},
+						{"origin": [-9, 5, -1], "size": [2, 16, 2], "pivot": [-8, 5, 0], "rotation": [0, 0, -20], "uv": [40, 0]}
+					]
+				},
+				{
+					"name": "rod3",
+					"parent": "ring_big",
+					"pivot": [0, 0, 0],
+					"rotation": [0, 177.5, 0],
+					"cubes": [
+						{"origin": [-13, 20, -1], "size": [2, 16, 2], "pivot": [-13, 20, 0], "rotation": [0, 0, 5], "uv": [32, 0]},
+						{"origin": [-9, 5, -1], "size": [2, 16, 2], "pivot": [-8, 5, 0], "rotation": [0, 0, -15], "uv": [40, 0]},
+						{"origin": [-9, 5, -1], "size": [2, 16, 2], "pivot": [-8, 5, 0], "rotation": [0, 0, -20], "uv": [40, 0]}
+					]
+				},
+				{
+					"name": "rod4",
+					"parent": "ring_big",
+					"pivot": [0, 0, 0],
+					"rotation": [0, 92.5, 0],
+					"cubes": [
+						{"origin": [-13, 20, -1], "size": [2, 16, 2], "pivot": [-13, 20, 0], "rotation": [0, 0, 5], "uv": [32, 0]},
+						{"origin": [-9, 5, -1], "size": [2, 16, 2], "pivot": [-8, 5, 0], "rotation": [0, 0, -15], "uv": [40, 0]},
+						{"origin": [-9, 5, -1], "size": [2, 16, 2], "pivot": [-8, 5, 0], "rotation": [0, 0, -20], "uv": [40, 0]}
+					]
+				},
+				{
+					"name": "ring_small",
+					"pivot": [0, 16, 0],
+					"rotation": [0, 2.5, 0],
+					"cubes": [
+						{"origin": [-1, 12.5, -1], "size": [2, 10, 2], "pivot": [0, 7, 0], "rotation": [15, 0, 0], "uv": [48, 0]},
+						{"origin": [-1, 12.5, -1], "size": [2, 10, 2], "pivot": [0, 7, 0], "rotation": [-165, -60, 180], "uv": [48, 0]},
+						{"origin": [-1, 12.5, -1], "size": [2, 10, 2], "pivot": [0, 7, 0], "rotation": [-165, 60, 180], "uv": [48, 0]}
+					]
+				},
+				{
+					"name": "ring_portal",
+					"pivot": [0, 16, 0],
+					"cubes": [
+						{"origin": [6, 38, -1], "size": [2, 10, 2], "pivot": [0, 43, 0], "rotation": [0, 0, 45], "uv": [48, 0]},
+						{"origin": [-8, 38, -1], "size": [2, 10, 2], "pivot": [0, 43, 0], "rotation": [0, 0, 45], "uv": [48, 0]},
+						{"origin": [-8, 38, -1], "size": [2, 10, 2], "pivot": [0, 43, 0], "rotation": [0, 0, -45], "uv": [48, 0]},
+						{"origin": [6, 38, -1], "size": [2, 10, 2], "pivot": [0, 43, 0], "rotation": [0, 0, -45], "uv": [48, 0]}
+					]
+				},
+				{
+					"name": "portal",
+					"pivot": [0, 43, 0],
+					"cubes": [
+						{"origin": [-7, 36, 0], "size": [14, 14, 0], "pivot": [0, 43, 0], "rotation": [0, 0, 45], "uv": [0, 32]}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,7 +1,8 @@
 package com.alexscavesplus.alexscavesplus.common.entity;
 
-import com.alexscavesplus.alexscavesplus.common.reg.ACPSoundEvents;
+import com.alexscavesplus.alexscavesplus.common.reg.ACPEntityType;
 import com.github.alexmodguy.alexscaves.server.entity.living.DinosaurEntity;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -9,29 +10,50 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraftforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.object.PlayState;
+
+import java.util.Random;
 
 public class Lacandrae extends DinosaurEntity implements GeoEntity {
-    public Lacandrae(EntityType entityType, Level level) {
+
+    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+    public Lacandrae(EntityType<? extends Lacandrae> entityType, Level level) {
         super(entityType, level);
+        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+        this.setMaxUpStep(1.0F);
+        ResourceLocation[] textures = new ResourceLocation[]{
+                new ResourceLocation("alexscavesplus", "textures/entity/lacandre.png"),
+                new ResourceLocation("alexscavesplus", "textures/entity/lacandre2.png"),
+                new ResourceLocation("alexscavesplus", "textures/entity/lacandre4.png"),
+                new ResourceLocation("alexscavesplus", "textures/entity/lacandre3.png")
+        };
+        this.texture = textures[new Random().nextInt(textures.length)];
     }
+    public ResourceLocation getTexture() {
+        return this.texture;
+    }
+    private final ResourceLocation texture;
     public boolean canBreatheUnderwater() {
         return true;
     }
@@ -50,6 +72,8 @@ public class Lacandrae extends DinosaurEntity implements GeoEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new RandomSwimmingGoal(this, 8, 5));
+        this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.25, 5));
+        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 2, false));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Lacandrae.class)).setAlertOthers());
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>( this, Player.class, 16F, 0.8D, 1.6D));
     }
@@ -57,17 +81,30 @@ public class Lacandrae extends DinosaurEntity implements GeoEntity {
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
-        return null;
+        return ACPEntityType.AJOLTODON.get().create(pLevel);
+    }
+
+    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
+        if (tAnimationState.isMoving()) {
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.lacandrae.walk", Animation.LoopType.LOOP));
+            return PlayState.CONTINUE;
+        }
+        if (this.isInWater()) {
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.lacandrae.swim", Animation.LoopType.LOOP));
+            return PlayState.CONTINUE;
+        }
+        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.lacandrae.idle", Animation.LoopType.LOOP));
+        return PlayState.CONTINUE;
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-
+        controllerRegistrar.add(new AnimationController<>(this, "animcontroller", 0, this::predicate));
     }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return null;
+        return cache;
     }
     @Override
     public boolean isPushedByFluid(FluidType type) {

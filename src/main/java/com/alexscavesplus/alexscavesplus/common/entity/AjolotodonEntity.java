@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.server.entity.living.DinosaurEntity;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -18,9 +19,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
@@ -47,6 +46,7 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.object.PlayState;
 
 import java.util.Map;
+import java.util.Random;
 
 public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel {
     private boolean isSpin;
@@ -54,6 +54,8 @@ public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new RandomSwimmingGoal(this, 8, 5));
+        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 2, false));
+        this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.25, 5));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, AjolotodonEntity.class)).setAlertOthers());
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>( this, Player.class, 16F, 0.8D, 1.6D));
     }
@@ -69,7 +71,20 @@ public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel 
         this.moveControl = new AjolotodonEntity.AxolotlMoveControl(this);
         this.lookControl = new AjolotodonEntity.AxolotlLookControl(this, 20);
         this.setMaxUpStep(1.0F);
+        ResourceLocation[] textures = new ResourceLocation[]{
+                new ResourceLocation("alexscavesplus", "textures/entity/ajo_skel.png"),
+                new ResourceLocation("alexscavesplus", "textures/entity/ajoltodon.png"),
+                new ResourceLocation("alexscavesplus", "textures/entity/ajo_retro.png"),
+                new ResourceLocation("alexscavesplus", "textures/entity/ajo_amber.png"),
+                new ResourceLocation("alexscavesplus", "textures/entity/ajo_3.png"),
+                new ResourceLocation("alexscavesplus", "textures/entity/ajo2.png")
+        };
+        this.texture = textures[new Random().nextInt(textures.length)];
     }
+    public ResourceLocation getTexture() {
+        return this.texture;
+    }
+    private final ResourceLocation texture;
 
     @Override
     protected PathNavigation createNavigation(Level level) {
@@ -236,7 +251,7 @@ public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel 
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-            controllerRegistrar.add(new AnimationController<>(this, "animcontroller", 20, this::predicate));
+            controllerRegistrar.add(new AnimationController<>(this, "animcontroller", 0, this::predicate));
     }
 
     @Override
@@ -247,14 +262,13 @@ public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel 
         }
         super.aiStep();
     }
-
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-        if (tAnimationState.isMoving() && this.isInWater()){
-            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.swim", Animation.LoopType.LOOP));
+        if (tAnimationState.isMoving()) {
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.walk", Animation.LoopType.LOOP));
             return PlayState.CONTINUE;
         }
-        if (this.isSpin()){
-            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.spin", Animation.LoopType.LOOP));
+        if (this.isInWater()) {
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.swim", Animation.LoopType.LOOP));
             return PlayState.CONTINUE;
         }
         tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.idle", Animation.LoopType.LOOP));

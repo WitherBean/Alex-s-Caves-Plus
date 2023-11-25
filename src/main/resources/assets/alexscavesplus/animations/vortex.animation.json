@@ -1,0 +1,63 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.vortex.idle": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"ring_big": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 360, 0]
+						},
+						"1.0": {
+							"vector": [0, 540, 0]
+						},
+						"1.5": {
+							"vector": [0, 630, 0]
+						},
+						"2.0": {
+							"vector": [0, 720, 0]
+						}
+					}
+				},
+				"ring_small": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, -180, 0]
+						},
+						"1.5": {
+							"vector": [0, -270, 0]
+						},
+						"2.0": {
+							"vector": [0, -360, 0]
+						}
+					}
+				},
+				"portal": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.5": {
+							"vector": [0, 0, 180]
+						},
+						"1.0": {
+							"vector": [0, 0, 360]
+						},
+						"1.5": {
+							"vector": [0, 0, 540]
+						},
+						"2.0": {
+							"vector": [0, 0, 720]
+						}
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

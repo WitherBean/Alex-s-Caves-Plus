@@ -1,0 +1,28 @@
+{
+  "temperature": 0.8,
+  "downfall": 0.4,
+  "has_precipitation": false,
+  "temperature_modifier": "frozen",
+  "effects": {
+    "sky_color": 0,
+    "fog_color": 2754093,
+    "water_color": 1515829,
+    "water_fog_color": 1184284,
+    "grass_color": 0,
+    "foliage_color": 0,
+    "particle": {
+      "options": {
+        "type": "minecraft:ash"
+      },
+      "probability": 0.5
+    }
+  },
+  "spawners": {},
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    "minecraft:blackstone_blobs",
+    "minecraft:basalt_blobs",
+    "minecraft:basalt_pillar"
+  ]
+}

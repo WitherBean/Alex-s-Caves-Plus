@@ -2,7 +2,9 @@ package com.alexscavesplus.alexscavesplus.common.reg;
 
 import com.alexscavesplus.alexscavesplus.AlexsCavesPlus;
 import com.alexscavesplus.alexscavesplus.common.entity.AjolotodonEntity;
+import com.alexscavesplus.alexscavesplus.common.entity.Grottotaurus;
 import com.alexscavesplus.alexscavesplus.common.entity.Lacandrae;
+import com.alexscavesplus.alexscavesplus.common.entity.Vortex;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -24,6 +26,12 @@ public class ACPEntityType {
     public static final RegistryObject<EntityType<Lacandrae>> LACANDRAE = ENTITY_TYPES.register("lacandrae",
             () -> EntityType.Builder.of(Lacandrae::new, MobCategory.AXOLOTLS)
                     .sized(1.2F, 0.6F).build(new ResourceLocation(AlexsCavesPlus.MODID, "lacandrae").toString()));
+    public static final RegistryObject<EntityType<Grottotaurus>> GROTTOTAURUS = ENTITY_TYPES.register("grottotaurus",
+            () -> EntityType.Builder.of(Grottotaurus::new, MobCategory.MONSTER)
+                    .sized(3F, 3F).build(new ResourceLocation(AlexsCavesPlus.MODID, "grottotaurus").toString()));
+    public static final RegistryObject<EntityType<Vortex>> VORTEX = ENTITY_TYPES.register("vortex",
+            () -> EntityType.Builder.of(Vortex::new, MobCategory.MONSTER)
+                    .sized(1.3F, 3.2F).build(new ResourceLocation(AlexsCavesPlus.MODID, "vortex").toString()));
 
 
     // Entity Type Tags

@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.Grottotaurus.Idle": {
+		"animation.grottotaurus.idle": {
 			"loop": true,
 			"animation_length": 3,
 			"bones": {
@@ -71,10 +71,10 @@
 				}
 			}
 		},
-		"animation.Grottotaurus.Pose": {
+		"animation.grottotaurus.pose": {
 			"loop": true
 		},
-		"animation.Grottotaurus.Walk": {
+		"animation.grottotaurus.walk": {
 			"loop": true,
 			"animation_length": 1,
 			"bones": {
@@ -276,7 +276,7 @@
 				}
 			}
 		},
-		"animation.Grottotaurus.Bite": {
+		"animation.grottotaurus.bite": {
 			"loop": "hold_on_last_frame",
 			"animation_length": 0.75,
 			"bones": {
@@ -343,7 +343,7 @@
 				}
 			}
 		},
-		"animation.Grottotaurus.Sound": {
+		"animation.grottotaurus.sound": {
 			"loop": "hold_on_last_frame",
 			"animation_length": 0.5,
 			"bones": {
