@@ -53,9 +53,9 @@ public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel 
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new RandomSwimmingGoal(this, 8, 5));
+        this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 0.3, 5));
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 2, false));
-        this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.25, 5));
+        this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.3, 5));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, AjolotodonEntity.class)).setAlertOthers());
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>( this, Player.class, 16F, 0.8D, 1.6D));
     }
@@ -73,7 +73,6 @@ public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel 
         this.setMaxUpStep(1.0F);
         ResourceLocation[] textures = new ResourceLocation[]{
                 new ResourceLocation("alexscavesplus", "textures/entity/ajo_skel.png"),
-                new ResourceLocation("alexscavesplus", "textures/entity/ajoltodon.png"),
                 new ResourceLocation("alexscavesplus", "textures/entity/ajo_retro.png"),
                 new ResourceLocation("alexscavesplus", "textures/entity/ajo_amber.png"),
                 new ResourceLocation("alexscavesplus", "textures/entity/ajo_3.png"),
@@ -106,7 +105,7 @@ public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel 
                 .add(Attributes.MAX_HEALTH, 34.0f)
                 .add(Attributes.FOLLOW_RANGE, 20.0f)
                 .add(Attributes.ATTACK_DAMAGE, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 1.0f);
+                .add(Attributes.MOVEMENT_SPEED, 0.3f);
     }
     public void baseTick() {
         int i = this.getAirSupply();
@@ -271,7 +270,7 @@ public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel 
             tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.swim", Animation.LoopType.LOOP));
             return PlayState.CONTINUE;
         }
-        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.idle", Animation.LoopType.LOOP));
+        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.walk", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }
 

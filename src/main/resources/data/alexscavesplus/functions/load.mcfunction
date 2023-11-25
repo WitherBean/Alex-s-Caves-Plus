@@ -1,1 +1,2 @@
-say "the mod is loaded"
+scoreboard objectives add themspawn dummy
+scoreboard objectives add them_spawn_timer dummy
