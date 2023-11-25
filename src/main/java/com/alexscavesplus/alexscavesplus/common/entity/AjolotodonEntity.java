@@ -3,6 +3,7 @@ package com.alexscavesplus.alexscavesplus.common.entity;
 import com.alexscavesplus.alexscavesplus.common.reg.ACPEntityType;
 import com.alexscavesplus.alexscavesplus.common.reg.ACPSoundEvents;
 import com.github.alexmodguy.alexscaves.server.entity.living.DinosaurEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.TrilocarisEntity;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
@@ -21,12 +22,15 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -48,7 +52,7 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.util.Map;
 import java.util.Random;
 
-public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel {
+public class AjolotodonEntity extends PathfinderMob implements GeoEntity, LerpingModel {
     private boolean isSpin;
 
     @Override
@@ -56,7 +60,11 @@ public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel 
         this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 0.3, 5));
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 2, false));
         this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.3, 5));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, AjolotodonEntity.class)).setAlertOthers());
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Slime.class, true, false));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, TrilocarisEntity.class, true, false));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, AbstractFish.class, true, false));
+        this.goalSelector.addGoal(0, new LeapAtTargetGoal(this, 0.56F));
+        this.targetSelector.addGoal(0, (new HurtByTargetGoal(this, AjolotodonEntity.class)).setAlertOthers());
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>( this, Player.class, 16F, 0.8D, 1.6D));
     }
 
@@ -104,7 +112,8 @@ public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel 
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 34.0f)
                 .add(Attributes.FOLLOW_RANGE, 20.0f)
-                .add(Attributes.ATTACK_DAMAGE, 1.0f)
+                .add(Attributes.ATTACK_DAMAGE, 2.0f)
+                .add(Attributes.ATTACK_KNOCKBACK, 0.1f)
                 .add(Attributes.MOVEMENT_SPEED, 0.3f);
     }
     public void baseTick() {
@@ -242,15 +251,9 @@ public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel 
         return 0;
     }
 
-    @Nullable
-    @Override
-    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
-        return ACPEntityType.AJOLTODON.get().create(serverLevel);
-    }
-
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-            controllerRegistrar.add(new AnimationController<>(this, "animcontroller", 0, this::predicate));
+            controllerRegistrar.add(new AnimationController<>(this, "animcontroller", 5, this::predicate));
     }
 
     @Override
@@ -264,14 +267,15 @@ public class AjolotodonEntity extends Animal implements GeoEntity, LerpingModel 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
         if (tAnimationState.isMoving()) {
             tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.walk", Animation.LoopType.LOOP));
+            if (this.isInWater()) {
+                tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.swim", Animation.LoopType.LOOP));
+                return PlayState.CONTINUE;
+            }
+            return PlayState.CONTINUE;
+        } else {
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.idle", Animation.LoopType.LOOP));
             return PlayState.CONTINUE;
         }
-        if (this.isInWater()) {
-            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.swim", Animation.LoopType.LOOP));
-            return PlayState.CONTINUE;
-        }
-        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.ajolotodon.walk", Animation.LoopType.LOOP));
-        return PlayState.CONTINUE;
     }
 
     public void setRecordPlayingNearby(BlockPos pPos, boolean pIsSpin){

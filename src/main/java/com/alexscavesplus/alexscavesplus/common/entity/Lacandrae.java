@@ -2,6 +2,7 @@ package com.alexscavesplus.alexscavesplus.common.entity;
 
 import com.alexscavesplus.alexscavesplus.common.reg.ACPEntityType;
 import com.github.alexmodguy.alexscaves.server.entity.living.DinosaurEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.TrilocarisEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -10,6 +11,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -17,7 +19,10 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -35,7 +40,7 @@ import software.bernie.geckolib.core.object.PlayState;
 
 import java.util.Random;
 
-public class Lacandrae extends DinosaurEntity implements GeoEntity {
+public class Lacandrae extends PathfinderMob implements GeoEntity {
 
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     public Lacandrae(EntityType<? extends Lacandrae> entityType, Level level) {
@@ -54,34 +59,27 @@ public class Lacandrae extends DinosaurEntity implements GeoEntity {
         return this.texture;
     }
     private final ResourceLocation texture;
+
     public boolean canBreatheUnderwater() {
         return true;
-    }
-
-    @Override
-    public BlockState createEggBlockState() {
-        return null;
     }
     public static AttributeSupplier.Builder setAttributes() {
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 27.0f)
                 .add(Attributes.FOLLOW_RANGE, 20.0f)
-                .add(Attributes.ATTACK_DAMAGE, 2.0f)
-                .add(Attributes.MOVEMENT_SPEED, 1.0f);
+                .add(Attributes.ATTACK_DAMAGE, 3.0f)
+                .add(Attributes.ATTACK_KNOCKBACK, 0.1f)
+                .add(Attributes.MOVEMENT_SPEED, 0.3f);
     }
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new RandomSwimmingGoal(this, 8, 5));
-        this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.25, 5));
+        this.goalSelector.addGoal(0, new RandomSwimmingGoal(this, 0.5, 5));
+        this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.3, 5));
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 2, false));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Lacandrae.class)).setAlertOthers());
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Slime.class, true, false));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, AbstractFish.class, true, false));
         this.goalSelector.addGoal(0, new AvoidEntityGoal<>( this, Player.class, 16F, 0.8D, 1.6D));
-    }
-
-    @Nullable
-    @Override
-    public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
-        return ACPEntityType.AJOLTODON.get().create(pLevel);
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {

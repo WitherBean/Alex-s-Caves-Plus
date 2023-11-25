@@ -50,8 +50,8 @@ public class Grottotaurus extends Monster implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "animcontroller", 0, this::predicate));
-        controllerRegistrar.add(new AnimationController<>(this, "animcontroller", 0, this::Attackpredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "animcontroller", 5, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "animcontroller", 5, this::Attackpredicate));
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
