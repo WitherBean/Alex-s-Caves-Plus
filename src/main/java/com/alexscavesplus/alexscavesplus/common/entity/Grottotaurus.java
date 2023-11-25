@@ -66,10 +66,10 @@ public class Grottotaurus extends Monster implements GeoEntity {
     }
     private <T extends GeoAnimatable> PlayState Attackpredicate(AnimationState<T> tAnimationState) {
         if(this.swinging) {
-                    tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.grottotaurus.attack", Animation.LoopType.PLAY_ONCE));
-                    this.swinging = false;
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.grottotaurus.attack", Animation.LoopType.PLAY_ONCE));
+            this.swinging = false;
             }
-        return PlayState.CONTINUE;
+            return PlayState.CONTINUE;
     }
 
     @Override

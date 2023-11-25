@@ -1,0 +1,107 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.ender_virus",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 6,
+				"visible_bounds_height": 4.5,
+				"visible_bounds_offset": [0, 1.75, 0]
+			},
+			"bones": [
+				{
+					"name": "virus",
+					"pivot": [0, 22, 0]
+				},
+				{
+					"name": "topbody",
+					"parent": "virus",
+					"pivot": [0, 22, 12],
+					"cubes": [
+						{"origin": [-12, 22, -12], "size": [24, 12, 24], "uv": [0, 36]}
+					]
+				},
+				{
+					"name": "topeye",
+					"parent": "topbody",
+					"pivot": [0, 6, 0],
+					"cubes": [
+						{"origin": [-6, 22, -18], "size": [12, 7, 6], "uv": [92, 0]}
+					]
+				},
+				{
+					"name": "virustopantennas",
+					"parent": "topbody",
+					"pivot": [0, 22, 12],
+					"cubes": [
+						{"origin": [-22, 22, 0], "size": [10, 12, 0], "uv": [0, 0]},
+						{"origin": [12, 22, 0], "size": [10, 12, 0], "uv": [92, 36]},
+						{"origin": [0, 34, -12], "size": [0, 10, 24], "uv": [48, 48]},
+						{"origin": [-12, 34, 0], "size": [24, 10, 0], "uv": [0, 92]},
+						{"origin": [0, 21, 12], "size": [0, 13, 10], "uv": [0, 26]}
+					]
+				},
+				{
+					"name": "teeth",
+					"parent": "topbody",
+					"pivot": [0, 22, 12],
+					"cubes": [
+						{"origin": [-12, 17, -11.5], "size": [24, 5, 0], "uv": [0, 104]},
+						{"origin": [11.5, 17, -11.5], "size": [0, 5, 24], "uv": [0, 85]},
+						{"origin": [-11.5, 17, -11.5], "size": [0, 5, 24], "uv": [0, 85]}
+					]
+				},
+				{
+					"name": "lowerbody",
+					"parent": "virus",
+					"pivot": [0, 22, 12],
+					"cubes": [
+						{"origin": [-12, 10, -12], "size": [24, 12, 24], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "viruslowerantennas",
+					"parent": "lowerbody",
+					"pivot": [0, 22, 12],
+					"cubes": [
+						{"origin": [-22, 10, 0], "size": [10, 12, 0], "uv": [0, 12]},
+						{"origin": [-12, 0, 0], "size": [24, 10, 0], "uv": [58, 82]},
+						{"origin": [12, 10, 0], "size": [10, 12, 0], "uv": [91, 48]},
+						{"origin": [0, 0, -12], "size": [0, 10, 24], "uv": [0, 48]},
+						{"origin": [0, 10, 12], "size": [0, 13, 10], "uv": [0, 37]}
+					]
+				},
+				{
+					"name": "teeth2",
+					"parent": "lowerbody",
+					"pivot": [0, 27, 12],
+					"cubes": [
+						{"origin": [-12, 22, -11.5], "size": [24, 5, 0], "uv": [0, 114]},
+						{"origin": [11.5, 22, -11.5], "size": [0, 5, 24], "uv": [0, 95]},
+						{"origin": [-11.5, 22, -11.5], "size": [0, 5, 24], "uv": [0, 95]}
+					]
+				},
+				{
+					"name": "lowereye",
+					"parent": "lowerbody",
+					"pivot": [0, 6, 0],
+					"cubes": [
+						{"origin": [-6, 17, -18], "size": [12, 5, 6], "uv": [90, 116]}
+					]
+				},
+				{
+					"name": "virusantennas",
+					"parent": "virus",
+					"pivot": [0, 6, 0],
+					"cubes": [
+						{"origin": [-22, 22, -12], "size": [10, 0, 24], "uv": [48, 0]},
+						{"origin": [-12, 22, 12], "size": [24, 0, 10], "uv": [0, 82]},
+						{"origin": [12, 22, -12], "size": [10, 0, 24], "uv": [48, 36]}
+					]
+				}
+			]
+		}
+	]
+}

@@ -81,17 +81,20 @@ public class Vortex extends Monster implements GeoEntity {
     }
     public void baseTick() {
         super.baseTick();
-        for (Entity entity : this.level().getEntities(this, this.getBoundingBox().inflate(3))) {
+        for (Entity entity : this.level().getEntities(this, this.getBoundingBox().inflate(1.25))) {
             if (!(entity instanceof Vortex)) {
                 if (this.distanceTo(entity) > 2.5) {
                     double d0 = entity.getX() - this.getX();
                     double d1 = entity.getZ() - this.getZ();
                     double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
-                    entity.push(d0 / d2 * 2.5D, 0.5D, d1 / d2 * 2.5D);
+                    entity.push(d0 / d2 * 0.5D, 0.5D, d1 / d2 * 0.5D);
                     CameraShakeEvent.shake(this.level(), 20, 0.05F, this.blockPosition(), 24);
 
                 }
             }
         }
+    }
+    public boolean isSensitiveToWater() {
+        return true;
     }
 }

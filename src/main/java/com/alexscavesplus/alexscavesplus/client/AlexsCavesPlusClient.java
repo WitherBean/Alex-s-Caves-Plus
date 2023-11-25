@@ -1,10 +1,8 @@
 package com.alexscavesplus.alexscavesplus.client;
 
 import com.alexscavesplus.alexscavesplus.AlexsCavesPlus;
-import com.alexscavesplus.alexscavesplus.client.render.AjoltodonRenderer;
-import com.alexscavesplus.alexscavesplus.client.render.GrottotaurusRenderer;
-import com.alexscavesplus.alexscavesplus.client.render.LacandraeRenderer;
-import com.alexscavesplus.alexscavesplus.client.render.VortexRenderer;
+import com.alexscavesplus.alexscavesplus.client.render.*;
+import com.alexscavesplus.alexscavesplus.common.entity.EnderVirus;
 import com.alexscavesplus.alexscavesplus.common.entity.Grottotaurus;
 import com.alexscavesplus.alexscavesplus.common.entity.Lacandrae;
 import com.alexscavesplus.alexscavesplus.common.reg.ACPEntityType;
@@ -22,6 +20,7 @@ public class AlexsCavesPlusClient {
         event.registerEntityRenderer(ACPEntityType.LACANDRAE.get(), LacandraeRenderer::new);
         event.registerEntityRenderer(ACPEntityType.GROTTOTAURUS.get(), GrottotaurusRenderer::new);
         event.registerEntityRenderer(ACPEntityType.VORTEX.get(), VortexRenderer::new);
+        event.registerEntityRenderer(ACPEntityType.ENDER_VIRUS.get(), EnderVirusRenderer::new);
     }
 
     @SubscribeEvent

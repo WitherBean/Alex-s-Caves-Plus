@@ -16,13 +16,13 @@ public class ACPItems {
     public static final RegistryObject<Item> MARSH_DISC = ITEMS.register("marsh_disc", () -> new RecordItem(16, ACPSoundEvents.MARSH_DISC, (new Item.Properties()).stacksTo(1).rarity(Rarity.RARE), 5520));
 
     public static final RegistryObject<ForgeSpawnEggItem> AJOLTODON_SPAWN_EGG = ITEMS.register("ajolotodon_spawn_egg",
-            () -> new ForgeSpawnEggItem(ACPEntityType.AJOLTODON, 0xFF55AA, 0x27DA9F, new Item.Properties().stacksTo(64)));
+            () -> new ForgeSpawnEggItem(ACPEntityType.AJOLTODON, 0x774200, 0x00939E, new Item.Properties().stacksTo(64)));
 
     public static final RegistryObject<ForgeSpawnEggItem> VORTEX_SPAWN_EGG = ITEMS.register("vortex_spawn_egg",
-            () -> new ForgeSpawnEggItem(ACPEntityType.VORTEX, 0xFF55AA, 0x27DA9F, new Item.Properties().stacksTo(64)));
+            () -> new ForgeSpawnEggItem(ACPEntityType.VORTEX, 0xB100FF, 0x000000, new Item.Properties().stacksTo(64)));
 
     public static final RegistryObject<ForgeSpawnEggItem> LACANDRAE_SPAWN_EGG = ITEMS.register("larcandrae_spawn_egg",
-            () -> new ForgeSpawnEggItem(ACPEntityType.LACANDRAE, 0xFF55AA, 0x27DA9F, new Item.Properties().stacksTo(64)));
+            () -> new ForgeSpawnEggItem(ACPEntityType.LACANDRAE, 0x865F00, 0x643400, new Item.Properties().stacksTo(64)));
 
     public static void register(IEventBus event){
         ITEMS.register(event);

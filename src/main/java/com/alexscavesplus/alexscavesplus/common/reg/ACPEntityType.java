@@ -1,10 +1,7 @@
 package com.alexscavesplus.alexscavesplus.common.reg;
 
 import com.alexscavesplus.alexscavesplus.AlexsCavesPlus;
-import com.alexscavesplus.alexscavesplus.common.entity.AjolotodonEntity;
-import com.alexscavesplus.alexscavesplus.common.entity.Grottotaurus;
-import com.alexscavesplus.alexscavesplus.common.entity.Lacandrae;
-import com.alexscavesplus.alexscavesplus.common.entity.Vortex;
+import com.alexscavesplus.alexscavesplus.common.entity.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -32,6 +29,9 @@ public class ACPEntityType {
     public static final RegistryObject<EntityType<Vortex>> VORTEX = ENTITY_TYPES.register("vortex",
             () -> EntityType.Builder.of(Vortex::new, MobCategory.MONSTER)
                     .sized(1.3F, 3.2F).build(new ResourceLocation(AlexsCavesPlus.MODID, "vortex").toString()));
+    public static final RegistryObject<EntityType<EnderVirus>> ENDER_VIRUS = ENTITY_TYPES.register("ender_virus",
+            () -> EntityType.Builder.of(EnderVirus::new, MobCategory.MONSTER)
+                    .sized(2.5F, 2.5F).build(new ResourceLocation(AlexsCavesPlus.MODID, "ender_virus").toString()));
 
 
     // Entity Type Tags
