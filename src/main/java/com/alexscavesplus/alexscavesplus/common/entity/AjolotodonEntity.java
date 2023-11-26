@@ -239,8 +239,6 @@ public class AjolotodonEntity extends PathfinderMob implements GeoEntity, Lerpin
         }
     }
 
-
-
     @Override
     public int getMaxHeadXRot() {
         return 1;

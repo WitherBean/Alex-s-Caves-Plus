@@ -2,9 +2,6 @@ package com.alexscavesplus.alexscavesplus.client;
 
 import com.alexscavesplus.alexscavesplus.AlexsCavesPlus;
 import com.alexscavesplus.alexscavesplus.client.render.*;
-import com.alexscavesplus.alexscavesplus.common.entity.EnderVirus;
-import com.alexscavesplus.alexscavesplus.common.entity.Grottotaurus;
-import com.alexscavesplus.alexscavesplus.common.entity.Lacandrae;
 import com.alexscavesplus.alexscavesplus.common.reg.ACPEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -21,6 +18,7 @@ public class AlexsCavesPlusClient {
         event.registerEntityRenderer(ACPEntityType.GROTTOTAURUS.get(), GrottotaurusRenderer::new);
         event.registerEntityRenderer(ACPEntityType.VORTEX.get(), VortexRenderer::new);
         event.registerEntityRenderer(ACPEntityType.ENDER_VIRUS.get(), EnderVirusRenderer::new);
+        event.registerEntityRenderer(ACPEntityType.END_KING.get(), EndKingRenderer::new);
     }
 
     @SubscribeEvent

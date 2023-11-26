@@ -59,8 +59,6 @@ public class Grottotaurus extends Monster implements GeoEntity {
             tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.grottotaurus.walk", Animation.LoopType.LOOP));
             return PlayState.CONTINUE;
         }
-
-
         tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.grottotaurus.idle", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }

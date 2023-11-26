@@ -2,6 +2,7 @@ package com.alexscavesplus.alexscavesplus.common.reg;
 
 import com.alexscavesplus.alexscavesplus.AlexsCavesPlus;
 import com.alexscavesplus.alexscavesplus.common.entity.*;
+import com.alexscavesplus.alexscavesplus.common.entity.boss.EndKing;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -32,6 +33,9 @@ public class ACPEntityType {
     public static final RegistryObject<EntityType<EnderVirus>> ENDER_VIRUS = ENTITY_TYPES.register("ender_virus",
             () -> EntityType.Builder.of(EnderVirus::new, MobCategory.MONSTER)
                     .sized(2.5F, 2.5F).build(new ResourceLocation(AlexsCavesPlus.MODID, "ender_virus").toString()));
+    public static final RegistryObject<EntityType<EndKing>> END_KING = ENTITY_TYPES.register("end_king",
+            () -> EntityType.Builder.of(EndKing::new, MobCategory.MONSTER)
+                    .sized(3F, 5F).build(new ResourceLocation(AlexsCavesPlus.MODID, "end_king").toString()));
 
 
     // Entity Type Tags

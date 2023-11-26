@@ -2,6 +2,7 @@ package com.alexscavesplus.alexscavesplus.common.event;
 
 import com.alexscavesplus.alexscavesplus.AlexsCavesPlus;
 import com.alexscavesplus.alexscavesplus.common.entity.*;
+import com.alexscavesplus.alexscavesplus.common.entity.boss.EndKing;
 import com.alexscavesplus.alexscavesplus.common.reg.ACPEntityType;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,6 +17,7 @@ public class ACPEventClientBus {
         event.put(ACPEntityType.GROTTOTAURUS.get(), Grottotaurus.setAttributes().build());
         event.put(ACPEntityType.VORTEX.get(), Vortex.setAttributes().build());
         event.put(ACPEntityType.ENDER_VIRUS.get(), EnderVirus.setAttributes().build());
+        event.put(ACPEntityType.END_KING.get(), EndKing.setAttributes().build());
     }
 
 }
