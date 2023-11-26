@@ -81,6 +81,7 @@ public class AjolotodonEntity extends PathfinderMob implements GeoEntity, Lerpin
         this.setMaxUpStep(1.0F);
         ResourceLocation[] textures = new ResourceLocation[]{
                 new ResourceLocation("alexscavesplus", "textures/entity/ajo_skel.png"),
+                new ResourceLocation("alexscavesplus", "textures/entity/ajo.png"),
                 new ResourceLocation("alexscavesplus", "textures/entity/ajo_retro.png"),
                 new ResourceLocation("alexscavesplus", "textures/entity/ajo_amber.png"),
                 new ResourceLocation("alexscavesplus", "textures/entity/ajo_3.png"),

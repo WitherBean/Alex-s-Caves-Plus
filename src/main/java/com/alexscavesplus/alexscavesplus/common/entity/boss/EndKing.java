@@ -1,29 +1,35 @@
 package com.alexscavesplus.alexscavesplus.common.entity.boss;
 
-import com.alexscavesplus.alexscavesplus.client.events.CameraShakeEvent;
 import com.alexscavesplus.alexscavesplus.common.entity.boss.part.EndKingPart;
 import com.alexscavesplus.alexscavesplus.utils.PositionUtils;
+import com.github.alexmodguy.alexscaves.server.entity.ai.GroundPathNavigatorNoSpin;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.boss.EnderDragonPart;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
+import org.apache.commons.codec.Encoder;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
@@ -32,12 +38,16 @@ import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInst
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
-import java.util.List;
 import java.util.Random;
 
-public class EndKing extends Monster implements GeoEntity {
+public class EndKing extends Monster implements GeoEntity, Enemy {
 
+    protected float getSoundVolume() {
+        return 5.0F;
+    }
     public EndKingPart subEntity;
+    public EndKingPart subEntity2;
+    public EndKingPart subEntity3;
     private final ServerBossEvent bossEvent = (ServerBossEvent)(new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.PINK, BossEvent.BossBarOverlay.PROGRESS)).setDarkenScreen(true);
 
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
@@ -45,35 +55,63 @@ public class EndKing extends Monster implements GeoEntity {
     public float getStepHeight() {
         return 1;
     }
-    @Override
-    public boolean canBeCollidedWith() {
-        return true;
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 2, true));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, true, false));
     }
     @Override
     public net.minecraftforge.entity.PartEntity<?>[] getParts() {
-        return new PartEntity<?>[]{this.subEntity};
+        return new PartEntity<?>[]{this.subEntity, this.subEntity2, this.subEntity3};
+    }
+    public void startSeenByPlayer(ServerPlayer pPlayer) {
+        super.startSeenByPlayer(pPlayer);
+        this.bossEvent.addPlayer(pPlayer);
+    }
+    public void stopSeenByPlayer(ServerPlayer pPlayer) {
+        super.stopSeenByPlayer(pPlayer);
+        this.bossEvent.removePlayer(pPlayer);
+    }
+    protected PathNavigation createNavigation(Level level) {
+        return new GroundPathNavigatorNoSpin(this, level);
     }
 
     public EndKing(EntityType entityType, Level level) {
         super(entityType, level);
         this.subEntity = new EndKingPart(this);
+        this.subEntity2 = new EndKingPart(this);
+        this.subEntity3 = new EndKingPart(this);
     }
+
     public boolean hurt(DamageSource p_35055_, float p_35056_) {
         boolean flag = super.hurt(p_35055_, p_35056_);
         if (this.level().isClientSide) {
             return false;
         } else {
-            return flag;
+            return false;
         }
     }
     protected void updatePart() {
-        Vec3 partPos = PositionUtils.getOffsetPos(this, 0, -1, 40 / 16.0F, this.yBodyRot);
+        Vec3 partPos = PositionUtils.getOffsetPos(this, 0, 0, 40 / 16.0F, this.yBodyRot);
         this.movePart(this.subEntity, partPos.x, partPos.y, partPos.z);
+    }
+    protected void updatePart3() {
+        Vec3 partPos = PositionUtils.getOffsetPos(this, 0, 0, 80 / 32.0F, this.yBodyRot);
+        this.movePart(this.subEntity3, partPos.x, partPos.y, partPos.z);
+    }
+    protected void updatePart2() {
+        Vec3 partPos = PositionUtils.getOffsetPos(this, 0, 0, 80 / -16.0F, this.yBodyRot);
+        this.movePart(this.subEntity2, partPos.x, partPos.y, partPos.z);
     }
     @Override
     public void setId(int p_145769_1_) {
         super.setId(p_145769_1_);
         this.subEntity.setId(p_145769_1_ + 1);
+        this.subEntity2.setId(p_145769_1_ + 2);
+        this.subEntity3.setId(p_145769_1_ + 3);
     }
 
     protected void movePart(EndKingPart part, double dX, double dY, double dZ) {
@@ -106,7 +144,7 @@ public class EndKing extends Monster implements GeoEntity {
                 .add(Attributes.ARMOR_TOUGHNESS, 1.5f)
                 .add(Attributes.FOLLOW_RANGE, 200.0f)
                 .add(Attributes.ATTACK_DAMAGE, 15f)
-                .add(Attributes.MOVEMENT_SPEED, 0.278f);
+                .add(Attributes.MOVEMENT_SPEED, 0.3f);
     }
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
@@ -114,6 +152,9 @@ public class EndKing extends Monster implements GeoEntity {
             this.bossEvent.setName(this.getDisplayName());
         }
 
+    }
+    public boolean isPickable() {
+        return true;
     }
 
     public void setCustomName(@javax.annotation.Nullable Component pName) {
@@ -127,6 +168,8 @@ public class EndKing extends Monster implements GeoEntity {
 
         this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
         this.updatePart();
+        this.updatePart2();
+        this.updatePart3();
     }
     public boolean canChangeDimensions() {
         return false;
@@ -134,13 +177,6 @@ public class EndKing extends Monster implements GeoEntity {
 
     protected boolean canRide(Entity pEntity) {
         return false;
-    }
-
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(3, new RandomStrollGoal(this, 0.8, 5));
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, true, false));
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 2, false));
     }
 
     @Override

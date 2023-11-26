@@ -59,4 +59,13 @@ public class EndKingPart extends PartEntity<EndKing> {
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         throw new UnsupportedOperationException();
     }
+    @Override
+    public boolean isAttackable() {
+        return true;
+    }
+
+    @Override
+    public boolean isPickable() {
+        return true;
+    }
 }

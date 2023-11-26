@@ -18,9 +18,9 @@ public class ACPEntityType {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, AlexsCavesPlus.MODID);
 
-    public static final RegistryObject<EntityType<AjolotodonEntity>> AJOLTODON = ENTITY_TYPES.register("ajoltodon",
+    public static final RegistryObject<EntityType<AjolotodonEntity>> AJOLTODON = ENTITY_TYPES.register("ajolotodon",
             () -> EntityType.Builder.of(AjolotodonEntity::new, MobCategory.AXOLOTLS)
-                    .sized(0.85F, 0.75F).build(new ResourceLocation(AlexsCavesPlus.MODID, "ajoltodon").toString()));
+                    .sized(0.85F, 0.75F).build(new ResourceLocation(AlexsCavesPlus.MODID, "ajolotodon").toString()));
     public static final RegistryObject<EntityType<Lacandrae>> LACANDRAE = ENTITY_TYPES.register("lacandrae",
             () -> EntityType.Builder.of(Lacandrae::new, MobCategory.AXOLOTLS)
                     .sized(1.2F, 0.6F).build(new ResourceLocation(AlexsCavesPlus.MODID, "lacandrae").toString()));
@@ -35,7 +35,7 @@ public class ACPEntityType {
                     .sized(2.5F, 2.5F).build(new ResourceLocation(AlexsCavesPlus.MODID, "ender_virus").toString()));
     public static final RegistryObject<EntityType<EndKing>> END_KING = ENTITY_TYPES.register("end_king",
             () -> EntityType.Builder.of(EndKing::new, MobCategory.MONSTER)
-                    .sized(3F, 5F).build(new ResourceLocation(AlexsCavesPlus.MODID, "end_king").toString()));
+                    .sized(15F, 5F).build(new ResourceLocation(AlexsCavesPlus.MODID, "end_king").toString()));
 
 
     // Entity Type Tags
