@@ -2,6 +2,7 @@ package com.alexscavesplus.alexscavesplus.client;
 
 import com.alexscavesplus.alexscavesplus.AlexsCavesPlus;
 import com.alexscavesplus.alexscavesplus.client.render.*;
+import com.alexscavesplus.alexscavesplus.common.entity.boss.EndKing;
 import com.alexscavesplus.alexscavesplus.common.reg.ACPEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;

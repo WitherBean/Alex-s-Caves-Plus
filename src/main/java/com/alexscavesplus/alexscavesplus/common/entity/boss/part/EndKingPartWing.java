@@ -1,6 +1,7 @@
 package com.alexscavesplus.alexscavesplus.common.entity.boss.part;
 
 import com.alexscavesplus.alexscavesplus.common.entity.boss.EndKing;
+import com.github.alexmodguy.alexscaves.server.entity.living.HullbreakerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -8,29 +9,18 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
 
-public class EndKingPart extends PartEntity<EndKing> {
-    private final Entity connectedTo;
-    public final EndKing parentMob;
+public class EndKingPartWing extends PartEntity<EndKing> {
 
-    public EndKingPart(EndKing parent, Entity connectedTo) {
+    public final EndKing parentMob;
+    private final Entity connectedTo;
+
+    public EndKingPartWing(EndKing parent, Entity connectedTo) {
         super(parent);
         this.parentMob = parent;
         this.connectedTo = connectedTo;
         this.refreshDimensions();
-    }
-    public void setPosCenteredY(Vec3 pos) {
-        this.setPos(pos.x, pos.y - (double)(this.getBbHeight() * 0.5F), pos.z);
-    }
-
-    public Vec3 centeredPosition() {
-        return this.position().add(0.0, (double)(this.getBbHeight() * 0.5F), 0.0);
-    }
-
-    public Vec3 centeredPosition(float partialTicks) {
-        return this.getPosition(partialTicks).add(0.0, (double)(this.getBbHeight() * 0.5F), 0.0);
     }
     public boolean canBeCollidedWith() {
         EndKing parent = (EndKing)this.getParent();
@@ -61,7 +51,7 @@ public class EndKingPart extends PartEntity<EndKing> {
     public boolean hurt(DamageSource p_19946_, float p_19947_) {
         if (!this.level().isClientSide) {
             this.level().broadcastEntityEvent(this.parentMob, (byte) 9);
-            this.parentMob.hurt(p_19946_, p_19947_);
+            this.parentMob.hurt(p_19946_, p_19947_ * 2);
         }
         return true;
     }
@@ -75,7 +65,7 @@ public class EndKingPart extends PartEntity<EndKing> {
     }
 
     public EntityDimensions getDimensions(Pose p_213305_1_) {
-        return EntityDimensions.scalable(5F, 5F);
+        return EntityDimensions.scalable(10F, 1F);
     }
 
     @Override

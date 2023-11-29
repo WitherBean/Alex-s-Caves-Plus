@@ -17,7 +17,7 @@ public class ACPEventClientBus {
         event.put(ACPEntityType.GROTTOTAURUS.get(), Grottotaurus.setAttributes().build());
         event.put(ACPEntityType.VORTEX.get(), Vortex.setAttributes().build());
         event.put(ACPEntityType.ENDER_VIRUS.get(), EnderVirus.setAttributes().build());
-        event.put(ACPEntityType.END_KING.get(), EndKing.setAttributes().build());
+        event.put(ACPEntityType.END_KING.get(), EndKing.createAttributes().build());
     }
 
 }

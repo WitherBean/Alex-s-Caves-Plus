@@ -35,7 +35,7 @@ public class ACPEntityType {
                     .sized(2.5F, 2.5F).build(new ResourceLocation(AlexsCavesPlus.MODID, "ender_virus").toString()));
     public static final RegistryObject<EntityType<EndKing>> END_KING = ENTITY_TYPES.register("end_king",
             () -> EntityType.Builder.of(EndKing::new, MobCategory.MONSTER)
-                    .sized(15F, 5F).build(new ResourceLocation(AlexsCavesPlus.MODID, "end_king").toString()));
+                    .sized(4F, 5F).build(new ResourceLocation(AlexsCavesPlus.MODID, "end_king").toString()));
 
 
     // Entity Type Tags
